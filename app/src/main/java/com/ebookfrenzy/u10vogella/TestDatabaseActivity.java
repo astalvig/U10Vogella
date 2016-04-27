@@ -7,6 +7,7 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 
 public class TestDatabaseActivity extends ListActivity {
     private CommentsDataSource datasource;
@@ -36,10 +37,11 @@ public class TestDatabaseActivity extends ListActivity {
         Comment comment = null;
         switch (view.getId()) {
             case R.id.add:
-                String[] comments = new String[] { "Cool", "Very nice", "Hate it" };
-                int nextInt = new Random().nextInt(3);
+                //String[] comments = new String[] { "Cool", "Very nice", "Hate it" };
+                //int nextInt = new Random().nextInt(3);
                 // save the new comment to the database
-                comment = datasource.createComment(comments[nextInt]);
+                EditText textComment = (EditText) findViewById(R.id.editTextComment);
+                comment = datasource.createComment(textComment.getText().toString());
                 adapter.add(comment);
                 break;
             case R.id.delete:
