@@ -1,6 +1,7 @@
 package com.ebookfrenzy.u10vogella;
 
 import android.app.ListActivity;
+import android.media.Rating;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -50,6 +51,7 @@ public class TestDatabaseActivity extends ListActivity {
         @SuppressWarnings("unchecked")
         ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) getListAdapter();
         Comment comment = null;
+        Rating rating = null;
         switch (view.getId()) {
             case R.id.add:
                 //String[] comments = new String[] { "Cool", "Very nice", "Hate it" };
@@ -59,6 +61,9 @@ public class TestDatabaseActivity extends ListActivity {
                 EditText textRating = (EditText) findViewById(R.id.editTextRating);
                 comment = datasource.createComment(textComment.getText().toString(), textRating.getText().toString());
                 adapter.add(comment);
+                textComment.setText("");
+                textRating.setText("");
+
                 break;
             case R.id.delete:
 //                if (getListAdapter().getCount() > 0) {

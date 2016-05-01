@@ -17,8 +17,8 @@ public class CommentsDataSource {
     // Database fields
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
-    private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-            MySQLiteHelper.COLUMN_COMMENT };
+    //private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
+            //MySQLiteHelper.COLUMN_COMMENT };
 
     public CommentsDataSource(Context context) {
         dbHelper = new MySQLiteHelper(context);
@@ -38,11 +38,12 @@ public class CommentsDataSource {
         values.put(MySQLiteHelper.COLUMN_RATING, rating);
         long insertId = database.insert(MySQLiteHelper.TABLE_COMMENTS, null,
                 values);
-        String orderBy = MySQLiteHelper.COLUMN_RATING + " ASC";
+        //String orderBy = MySQLiteHelper.COLUMN_RATING + " ASC";
         //Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS,
                 //allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
                 //null, null, null);
-        Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS, null, null, null, null, null, orderBy);
+        Cursor cursor = database.query(MySQLiteHelper.TABLE_COMMENTS, null, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
+                null, null, null);
         cursor.moveToFirst();
         Comment newComment = cursorToComment(cursor);
         cursor.close();
@@ -75,8 +76,10 @@ public class CommentsDataSource {
 
     private Comment cursorToComment(Cursor cursor) {
         Comment comment = new Comment();
-        comment.setId(cursor.getLong(0));
-        comment.setComment(cursor.getString(1));
+        //comment.setId(cursor.getLong(0));
+        comment.setId(cursor.getLong(cursor.getColumnIndex(MySQLiteHelper.COLUMN_ID)));
+        //comment.setComment(cursor.getString(1));
+        comment.setComment(cursor.getString( cursor.getColumnIndex( MySQLiteHelper.COLUMN_COMMENT ) ));
         comment.setRating(cursor.getString(cursor.getColumnIndex(MySQLiteHelper.COLUMN_RATING)));
         return comment;
     }
